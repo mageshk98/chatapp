@@ -1,0 +1,38 @@
+/* Generice style for all chat message box */
+.chatBotContainer {
+  padding: 5px 15px;
+  margin-bottom: 8px;
+  width: 100%;
+  display: flex;
+}
+
+.outGoing,
+.inComing {
+  max-width: 65%;
+  min-height: 40px;
+  padding: 5px 11px;
+  color: white;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  min-width: 65px;
+  box-shadow: 0px 7px 20px 0px #90a4d7cc;
+}
+.chatBotContainer p {
+  margin: 0;
+}
+.outGoing {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #94b2ff;
+  border-bottom-left-radius: 20px;
+}
+.outGoing .messageContent {
+  padding-right: 30px;
+}
+.inComing {
+  background-color: #ffffff;
+  border: 1px solid #94b2ff;
+  color: black;
+  border-bottom-right-radius: 20px;
+}
