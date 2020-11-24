@@ -7,19 +7,32 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { MessageBox } from "../messageBox/messageComp";
 //from redux store
 import { useSelector, useDispatch } from "react-redux";
-import { sendOutGoing, changeStatus } from "../../actions";
+import {
+  sendOutGoing,
+  changeStatus,
+  resetEditStage,
+  editOutGoing,
+} from "../../actions";
 function ChatBot() {
   const [userInput, setUserInput] = useState("");
   const chatData = useSelector((state) => state.messages);
   const isTyping = useSelector((state) => state.isTyping);
+  const editActionData = useSelector((state) => state.editAction);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("hit");
     document
       .getElementById("chatbox")
       .scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
   }, [chatData]);
+
+  useEffect(() => {
+    if (editActionData.state) {
+      if (String(editActionData.editMessage).trim() !== "") {
+        setUserInput(editActionData.editMessage);
+      }
+    }
+  }, [editActionData]);
 
   const handleUserInput = (e) => {
     e.preventDefault();
@@ -27,8 +40,14 @@ function ChatBot() {
       return;
     }
     if (userInput.trim() !== "") {
-      dispatch(sendOutGoing(userInput));
-      dispatch(changeStatus(true));
+      if (!editActionData.state) {
+        dispatch(sendOutGoing(userInput));
+        dispatch(changeStatus(true));
+      } else {
+        dispatch(editOutGoing(userInput, editActionData.editMessageId));
+        dispatch(resetEditStage());
+      }
+
       setUserInput("");
     }
   };

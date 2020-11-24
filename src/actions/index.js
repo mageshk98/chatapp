@@ -6,9 +6,10 @@ export const sendOutGoing = (message) => {
   };
 };
 //This action is to send reply to the user
-export const receiveInComing = () => {
+export const receiveInComing = (message) => {
   return {
     type: "INCOMING",
+    payload: message,
   };
 };
 //This action is to handle editing messages
@@ -24,5 +25,19 @@ export const changeStatus = (currentState) => {
   return {
     type: "TYPING",
     payload: currentState,
+  };
+};
+
+//this will init the editing the message, it is like before updating to the store
+export const setEditStage = (stageData) => {
+  return {
+    type: "EDITING",
+    payload: stageData,
+  };
+};
+
+export const resetEditStage = () => {
+  return {
+    type: "RESETEDIT",
   };
 };
