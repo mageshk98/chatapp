@@ -111,3 +111,12 @@
 .sendBtn:focus {
   outline: none;
 }
+
+@media screen and (max-width: 572px) {
+  .topNav h4 {
+    font-size: 18px;
+  }
+  .chatMenu > img {
+    max-width: 18px;
+  }
+}
