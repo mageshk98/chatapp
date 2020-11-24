@@ -1,24 +1,4 @@
-const InitialState = [
-  {
-    messageId: 1,
-    message:
-      "Okay, I understand. But I don't have any experience with Redux  and I informed Sathish as well.",
-    type: "OUTGOING",
-    deliveredBy: "01:08 pm",
-  },
-  {
-    messageId: 2,
-    message: "You can have a try and see the output",
-    type: "INCOMING",
-    deliveredBy: "01:09 pm",
-  },
-  {
-    messageId: 3,
-    message: "In that case I need to learn redux. Okay I will try",
-    type: "OUTGOING",
-    deliveredBy: "01:12 pm",
-  },
-];
+const InitialState = [];
 function getCurrentTime() {
   let date = new Date();
   let hours = date.getHours();
