@@ -3,7 +3,11 @@ import ChatStyle from "./chatStyle.module.css";
 import ChatBotPic from "../../assets/images/chatbotimage.png";
 import DotMenus from "../../assets/images/horizontalDots.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCamera,
+  faHeadphonesAlt,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import { MessageBox } from "../messageBox/messageComp";
 //from redux store
 import { useSelector, useDispatch } from "react-redux";
@@ -15,20 +19,23 @@ import {
 } from "../../actions";
 function ChatBot() {
   const [userInput, setUserInput] = useState("");
+  const [show, setShow] = useState(false);
   const chatData = useSelector((state) => state.messages);
   const isTyping = useSelector((state) => state.isTyping);
   const editActionData = useSelector((state) => state.editAction);
   const userInputRef = useRef();
   const dispatch = useDispatch();
+  //After page loads this will focus the user keyboard input
   useEffect(() => {
     userInputRef.current.focus();
   }, []);
+  //To scroll down to bottom of the page when new message arrives/sent.
   useEffect(() => {
     document
       .getElementById("chatbox")
       .scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
   }, [chatData]);
-
+  //This useEffect will set the user input when user tries to edit sent message anf make focus also
   useEffect(() => {
     if (editActionData.state) {
       if (String(editActionData.editMessage).trim() !== "") {
@@ -37,7 +44,12 @@ function ChatBot() {
       }
     }
   }, [editActionData]);
-
+  // Handles the user input changes
+  const handleUserChanges = (e) => {
+    setUserInput(e.target.value);
+    if (show) setShow(!show);
+  };
+  // Triggered when user enter/submit the message
   const handleUserInput = (e) => {
     e.preventDefault();
     if (isTyping) {
@@ -93,7 +105,7 @@ function ChatBot() {
         <div className={ChatStyle.typeSection}>
           <form
             onSubmit={handleUserInput}
-            className="d-flex align-items-center"
+            className="d-flex align-items-center h-100 p-1"
           >
             <input
               type="text"
@@ -101,21 +113,50 @@ function ChatBot() {
               className={ChatStyle.keyBoardInput}
               value={userInput}
               ref={userInputRef}
-              onChange={(e) => setUserInput(e.target.value)}
+              onChange={(e) => handleUserChanges(e)}
             />
-
-            <button
-              type="submit"
-              className={ChatStyle.sendBtn}
-              title="Add Attachments"
-            >
-              <FontAwesomeIcon icon={faPlus} />
-            </button>
+            <span className={ChatStyle.keybrdSendOption}>
+              <button
+                type="button"
+                className={ChatStyle.sendBtn}
+                title="Add Attachments"
+                onClick={() => setShow(!show)}
+              >
+                <FontAwesomeIcon icon={faPlus} />
+              </button>
+              {show && <KeyBoardSendOptions />}
+            </span>
           </form>
         </div>
       </div>
     </div>
   );
 }
-
+// This keyboard popup options are just for showcasing purpose.
+function KeyBoardSendOptions() {
+  return (
+    <span className={ChatStyle.optionsPopup}>
+      <div className={ChatStyle.optionsWrap}>
+        <ul>
+          <li key="audio">
+            <button
+              className={ChatStyle.sendOptionBtn}
+              title={"Click to upload audio"}
+            >
+              <FontAwesomeIcon icon={faHeadphonesAlt} />
+            </button>
+          </li>
+          <li key="image">
+            <button
+              className={ChatStyle.sendOptionBtn}
+              title={"Click to upload images"}
+            >
+              <FontAwesomeIcon icon={faCamera} />
+            </button>
+          </li>
+        </ul>
+      </div>
+    </span>
+  );
+}
 export default ChatBot;

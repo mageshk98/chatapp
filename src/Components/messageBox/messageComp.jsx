@@ -1,15 +1,16 @@
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { receiveInComing, setEditStage, changeStatus } from "../../actions";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { receiveInComing, setEditStage, changeStatus } from "../../actions";
 import MessageBoxStyle from "./messageBoxStyle.module.css";
+
 function MessageBox({ detail }) {
-  if (detail.type === "OUTGOING") {
-    return <OutGoingMessageBox data={detail} />;
-  } else {
-    return <InComingMessageBox data={detail} />;
-  }
+  return detail.type === "OUTGOING" ? (
+    <OutGoingMessageBox data={detail} />
+  ) : (
+    <InComingMessageBox data={detail} />
+  );
 }
 
 function OutGoingMessageBox(props) {
@@ -57,6 +58,7 @@ function OutGoingMessageBox(props) {
       <div
         className={`${MessageBoxStyle.flexWrapper} align-items-end`}
         title={props.data.message}
+        tabIndex="1"
       >
         <span className={MessageBoxStyle.outGoing}>
           <p className={MessageBoxStyle.messageContent}>{props.data.message}</p>
@@ -95,7 +97,11 @@ function InComingMessageBox(props) {
     <div
       className={`${MessageBoxStyle.chatBotContainer} justify-content-start`}
     >
-      <div className={`${MessageBoxStyle.flexWrapper} align-items-start`}>
+      <div
+        className={`${MessageBoxStyle.flexWrapper} align-items-start`}
+        title={`Bot: ${props.data.message}`}
+        tabIndex="1"
+      >
         <span className={MessageBoxStyle.inComing}>
           <p className={MessageBoxStyle.messageContent}>{props.data.message}</p>
         </span>

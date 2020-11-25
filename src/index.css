@@ -26,3 +26,12 @@ code {
 #root {
   height: 100%;
 }
+::selection {
+  background-color: #3c4052c2;
+  color: white;
+}
+
+::-moz-selection {
+  background-color: #3c4052c2;
+  color: white;
+}
