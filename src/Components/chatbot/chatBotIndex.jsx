@@ -42,6 +42,7 @@ function ChatBot() {
         setUserInput(editActionData.editMessage);
         userInputRef.current.focus();
       }
+      setShow(false);
     }
   }, [editActionData]);
   // Handles the user input changes
