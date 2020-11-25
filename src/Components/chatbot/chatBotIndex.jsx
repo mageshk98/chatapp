@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import ChatStyle from "./chatStyle.module.css";
 import ChatBotPic from "../../assets/images/chatbotimage.png";
 import DotMenus from "../../assets/images/horizontalDots.png";
@@ -18,8 +18,11 @@ function ChatBot() {
   const chatData = useSelector((state) => state.messages);
   const isTyping = useSelector((state) => state.isTyping);
   const editActionData = useSelector((state) => state.editAction);
+  const userInputRef = useRef();
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    userInputRef.current.focus();
+  }, []);
   useEffect(() => {
     document
       .getElementById("chatbox")
@@ -30,6 +33,7 @@ function ChatBot() {
     if (editActionData.state) {
       if (String(editActionData.editMessage).trim() !== "") {
         setUserInput(editActionData.editMessage);
+        userInputRef.current.focus();
       }
     }
   }, [editActionData]);
@@ -96,6 +100,7 @@ function ChatBot() {
               placeholder="Type your message..."
               className={ChatStyle.keyBoardInput}
               value={userInput}
+              ref={userInputRef}
               onChange={(e) => setUserInput(e.target.value)}
             />
 

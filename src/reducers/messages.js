@@ -12,12 +12,12 @@ function getCurrentTime() {
 }
 const userInputMock = [
   ["hi", "hey", "hello", "hey there"],
-  ["how are you", "how are things"],
+  ["how are you", "how are things", "how you doing"],
   ["are you single", "marry me"],
   ["are you human", "are you robot"],
 
   ["happy", "good", "fantastic", "cool"],
-  ["help", "assist"],
+  ["help", "assist", "will you help me"],
   ["thanks", "thank you"],
   ["bye", "good bye", "goodbye"],
 ];
@@ -25,7 +25,11 @@ const userInputMock = [
 const BotReplies = [
   ["Hello!", "Hi!", "Hey!", "Hi there!"],
 
-  ["Fine... how are you?", "Good! Thanks. how are uou?"],
+  [
+    "Fine... how are you?",
+    "Good! Thanks. how are uou?",
+    "Doing great! How do you do?",
+  ],
 
   [
     "Sorry I have a boyfriend, brother.",
@@ -36,7 +40,7 @@ const BotReplies = [
 
   ["Thats great", "Good to hear", "Awesome!", "Superb!!"],
 
-  ["What do you wanna know?", "Yes tell me."],
+  ["What do you wanna know?", "Yes tell me.", "Yeah, for sure."],
 
   ["You're welcome", "No mention"],
 
@@ -45,46 +49,46 @@ const BotReplies = [
 
 const alternativeReplies = [
   "Same",
+  "LOL",
   "Go on...",
   "Try again",
   "I'm listening...",
   "Bro...",
 ];
-function compare(triggerArray, replyArray, text) {
+function compare(preDataArray, responseArray, text) {
   let item;
-  for (let x = 0; x < triggerArray.length; x++) {
-    for (let y = 0; y < replyArray.length; y++) {
-      console.log(triggerArray[x][y]);
-      if (String(triggerArray[x][y]).search(text)) {
-        let items = replyArray[x];
+  for (let x = 0; x < preDataArray.length; x++) {
+    for (let y = 0; y < responseArray.length; y++) {
+      if (text.search(String(preDataArray[x][y])) > -1) {
+        let items = responseArray[x];
         item = items[Math.floor(Math.random() * items.length)];
+        break;
       }
     }
   }
   return item;
 }
 const constructBotReply = (value) => {
-  var product;
+  var botReply;
   let text = String(value)
     .toLowerCase()
     .replace(/[^\w\s\d]/gi, "");
   text = text
     .replace(/ a /g, " ")
+    .replace(/im/g, "")
+    .replace(/i am/g, "")
     .replace(/i feel /g, "")
     .replace(/whats/g, "what is")
     .replace(/please /g, "")
     .replace(/ please/g, "");
 
   if (compare(userInputMock, BotReplies, text)) {
-    product = compare(userInputMock, BotReplies, text);
-  } else if (text.match(/robot/gi)) {
-    product = BotReplies[Math.floor(Math.random() * BotReplies.length)];
+    botReply = compare(userInputMock, BotReplies, text);
   } else {
-    product =
+    botReply =
       alternativeReplies[Math.floor(Math.random() * alternativeReplies.length)];
   }
-  console.log(product);
-  return product;
+  return botReply;
 };
 const messageReducer = (state = InitialState, action) => {
   switch (action.type) {
@@ -99,17 +103,8 @@ const messageReducer = (state = InitialState, action) => {
       return state.concat(inMessage);
     case "INCOMING":
       let constructMessage = constructBotReply(action.payload);
-      // let randomArr = [
-      //   "hi there",
-      //   "Howdy",
-      //   "Welcome",
-      //   "How can I help you?",
-      //   "You good name?",
-      //   "The underlying Git plumbing tools, such as git ls-files and git read-tree, read gitignore patterns specified by command-line options, or from files specified by command-line options. Higher-level Git tools, such as git status and git add, use patterns from the sources specified above.",
-      // ];
       let outMessage = {
         messageId: state.length + 1,
-        // message: randomArr[Math.floor(Math.random() * randomArr.length)],
         message: constructMessage,
         type: action.type,
         deliveredBy: getCurrentTime(),
