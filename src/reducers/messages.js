@@ -98,7 +98,6 @@ const constructBotReply = (value) => {
     .replace(/ u /g, " you ")
     .replace(/please /g, "")
     .replace(/ please/g, "");
-  console.log("updated text input", text);
   let { userInputMock, BotReplies, alternativeReplies } = REPLIES;
   if (compare(userInputMock, BotReplies, text)) {
     botReply = compare(userInputMock, BotReplies, text);
