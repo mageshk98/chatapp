@@ -23,6 +23,16 @@
   position: relative;
   margin-right: 15px;
 }
+/* Show if chat bot is currently online */
+.chatBotOnline {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 3px;
+  background-color: #32b539ad;
+  bottom: 4px;
+  right: 4px;
+}
 .chatProfileImg > img {
   max-width: 34px;
   position: absolute;
@@ -39,10 +49,27 @@
   -o-transition: 0.5s ease-in-out;
   transition: 0.5s ease-in-out;
 }
+.chatMenu {
+  position: relative;
+  transition: 6s ease-in-out;
+}
 .chatMenu > img {
   max-width: 35px;
 }
-
+.chatMenu:hover::after {
+  position: absolute;
+  content: " ";
+  width: calc(100% + 7px);
+  height: calc(100% + 7px);
+  background-color: #a6a6a624;
+  /* z-index: -1; */
+  top: -3.5px;
+  left: -3.5px;
+  bottom: 0px;
+  right: 0px;
+  border-radius: 30px;
+  transition: 0.6s ease-in-out;
+}
 /* Message box styles */
 .messageSection {
   height: calc(100% - 160px);
@@ -177,6 +204,12 @@
 }
 
 @media screen and (max-width: 572px) {
+  .messageSection {
+    height: calc(100% - 145px);
+  }
+  .topNav {
+    height: 65px;
+  }
   .topNav h4 {
     font-size: 18px;
   }

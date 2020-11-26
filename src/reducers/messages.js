@@ -17,9 +17,7 @@ const REPLIES = {
   userInputMock: [
     ["hi", "hey", "hello", "hey there", "hai"],
     ["how are you", "how are things", "how you doing"],
-    ["are you single", "marry me"],
-    ["are you human", "are you robot"],
-
+    ["are you single", "are you human", "are you robot"],
     ["happy", "good", "fantastic", "cool"],
     ["help", "assist", "will you help me"],
     ["thanks", "thank you"],
@@ -27,7 +25,13 @@ const REPLIES = {
     ["bye", "good bye", "goodbye"],
   ],
   BotReplies: [
-    ["Hello!", "Hi!", "Hey!", "Hi there!", "Aloha"],
+    [
+      "Hello!",
+      "Hi 👋 ! It's good to see you!",
+      "Hey! 😀",
+      "Hi there!",
+      "Great to see you here! 😊",
+    ],
 
     [
       "Fine... how are you?",
@@ -36,29 +40,31 @@ const REPLIES = {
     ],
 
     [
-      "Sorry I have a boyfriend, brother.",
+      "I'm a bot programmed to answer only some of the frequent questions.",
       "Is there any serious question you have?",
+      "Let me know if you have any question!",
     ],
-
-    ["Yes", "Hmm, sort of"],
 
     ["Thats great", "Good to hear", "Awesome!", "Superb!!"],
 
-    ["What do you wanna know?", "Yes tell me.", "Yeah, for sure."],
+    [
+      "What do you wanna know?",
+      "Yes tell me. How can I help you?.",
+      "Yeah, for sure.",
+    ],
 
     ["You're welcome", "No mention"],
     ["Okay, fine!", "Got it.", "Alright!", "Fine..."],
-    ["Goodbye", "See you soon", "Glad to connect with you"],
+    ["Goodbye 👋", "See you soon", "Glad to connect with you"],
   ],
   alternativeReplies: [
-    "Same",
     "LOL",
     "Okay, then.",
     "Go on...",
     "Pardon",
     "I'm listening!",
     "Bro...",
-    "Are you testing me?",
+    "I'm a bot programmed to answer only some of the frequent questions.",
   ],
 };
 //This function is to compare the user message with relative bot replies we have then will send the matched string accordingly.
@@ -88,8 +94,11 @@ const constructBotReply = (value) => {
     .replace(/i am/g, "")
     .replace(/i feel /g, "")
     .replace(/whats/g, "what is")
+    .replace(/ r /g, " are ")
+    .replace(/ u /g, " you ")
     .replace(/please /g, "")
     .replace(/ please/g, "");
+  console.log("updated text input", text);
   let { userInputMock, BotReplies, alternativeReplies } = REPLIES;
   if (compare(userInputMock, BotReplies, text)) {
     botReply = compare(userInputMock, BotReplies, text);

@@ -1,7 +1,7 @@
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { receiveInComing, setEditStage, changeStatus } from "../../actions";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MessageBoxStyle from "./messageBoxStyle.module.css";
 
@@ -17,6 +17,7 @@ function OutGoingMessageBox(props) {
   const dispatch = useDispatch();
   const isTyping = useSelector((state) => state.isTyping);
   const [isEditing, setIsEditing] = useState(false);
+
   useEffect(() => {
     let timer;
     if (isTyping) {
@@ -28,6 +29,7 @@ function OutGoingMessageBox(props) {
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   useEffect(() => {
     if (isEditing) {
       setTimeout(() => {
@@ -49,6 +51,7 @@ function OutGoingMessageBox(props) {
 
     setIsEditing(true);
   };
+
   return (
     <div
       className={`${MessageBoxStyle.chatBotContainer} justify-content-end ${
@@ -61,7 +64,15 @@ function OutGoingMessageBox(props) {
         tabIndex="1"
       >
         <span className={MessageBoxStyle.outGoing}>
-          <p className={MessageBoxStyle.messageContent}>{props.data.message}</p>
+          {useMemo(
+            () => (
+              <p className={MessageBoxStyle.messageContent}>
+                {props.data.message}
+              </p>
+            ),
+            [props.data.message]
+          )}
+
           <span className={`${MessageBoxStyle.messageMenu} dropdown`}>
             <FontAwesomeIcon
               title={"Edit this Message"}

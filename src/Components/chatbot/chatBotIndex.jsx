@@ -31,10 +31,14 @@ function ChatBot() {
   }, []);
   //To scroll down to bottom of the page when new message arrives/sent.
   useEffect(() => {
-    document
-      .getElementById("chatbox")
-      .scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
-  }, [chatData]);
+    if (!editActionData.state) {
+      document.getElementById("chatbox").scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest",
+      });
+    }
+  }, [chatData, editActionData]);
   //This useEffect will set the user input when user tries to edit sent message anf make focus also
   useEffect(() => {
     if (editActionData.state) {
@@ -73,16 +77,19 @@ function ChatBot() {
       {/* Top Navigation */}
       <div className={ChatStyle.topNav}>
         <span className="d-flex align-items-center">
-          <span className={ChatStyle.chatProfileImg}>
+          <span className={ChatStyle.chatProfileImg} title="I'm a Chat Bot">
             <img src={ChatBotPic} alt="chatbot" />
+            <span className={ChatStyle.chatBotOnline}></span>
           </span>
           <span className="d-inline-block text-left">
             <h4>Ask Hubino </h4>
             {isTyping ? (
               <small className="text-secondary font-weight-bold">
-                <i>typing...</i>
+                typing...
               </small>
-            ) : null}
+            ) : (
+              <small className="text-muted font-weight-bold">Online</small>
+            )}
           </span>
         </span>
         <span className={ChatStyle.chatMenu} title="menu">
