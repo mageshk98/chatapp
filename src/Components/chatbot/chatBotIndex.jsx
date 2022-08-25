@@ -82,7 +82,7 @@ function ChatBot() {
             <span className={ChatStyle.chatBotOnline}></span>
           </span>
           <span className="d-inline-block text-left">
-            <h4>Ask Hubino </h4>
+            <h4>Chitty</h4>
             {isTyping ? (
               <small className="text-secondary font-weight-bold">
                 typing...
